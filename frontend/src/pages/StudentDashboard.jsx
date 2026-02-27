@@ -29,7 +29,9 @@ export default function StudentDashboard() {
       setCurrentPage(res.data.page);
       setTotalPages(res.data.totalPages);
     } catch (error) {
-      console.log(error);
+      // Error already handled by axios interceptor
+      console.error('Search error:', error);
+      setPdfs([]);
     } finally {
       setLoading(false);
     }

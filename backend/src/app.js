@@ -8,7 +8,7 @@ import pdfRoutes from "./routes/pdf.routes.js";
 
 const app = express();
 
-// CORS configuration - Allow Vercel frontend
+// CORS configuration - Allow Vercel frontend and mobile browsers
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
@@ -16,15 +16,25 @@ const allowedOrigins = [
   "https://edu-platform-seven-chi.vercel.app",  // New Vercel URL
 ];
 
-// Custom CORS middleware for more control
+// Custom CORS middleware - Fixed for mobile browsers
 app.use((req, res, next) => {
   const origin = req.headers.origin;
+  
+  // Allow requests from allowed origins OR if no origin (mobile apps/Postman)
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
+  } else if (!origin) {
+    // Mobile browsers sometimes don't send origin on same-site requests
+    res.setHeader("Access-Control-Allow-Origin", "*");
+  } else if (origin && origin.includes("vercel.app")) {
+    // Allow any Vercel preview deployments
+    res.setHeader("Access-Control-Allow-Origin", origin);
   }
+  
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept, Origin, User-Agent");
   res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Max-Age", "86400"); // Cache preflight for 24 hours
   
   // Handle preflight requests
   if (req.method === "OPTIONS") {
