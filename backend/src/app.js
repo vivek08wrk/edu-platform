@@ -12,7 +12,8 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://edu-platform-omega-roan.vercel.app",
+  "https://edu-platform-omega-roan.vercel.app", // Old Vercel URL
+  "https://edu-platform-seven-chi.vercel.app",  // New Vercel URL
 ];
 
 // Custom CORS middleware for more control
