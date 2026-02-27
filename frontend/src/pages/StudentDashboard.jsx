@@ -35,6 +35,17 @@ export default function StudentDashboard() {
     }
   };
 
+  const handleSearch = () => {
+    setCurrentPage(1);
+    fetchPDFs(1);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
@@ -72,6 +83,7 @@ export default function StudentDashboard() {
                   className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
+                  onKeyPress={handleKeyPress}
                 />
               </div>
               
@@ -86,6 +98,7 @@ export default function StudentDashboard() {
                   className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   value={className}
                   onChange={(e) => setClassName(e.target.value)}
+                  onKeyPress={handleKeyPress}
                 />
               </div>
               
@@ -100,16 +113,17 @@ export default function StudentDashboard() {
                   className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   value={schoolName}
                   onChange={(e) => setSchoolName(e.target.value)}
+                  onKeyPress={handleKeyPress}
                 />
               </div>
               
               {/* Search Button */}
-              <div className="sm:self-end">
+              <div className="flex flex-col justify-end">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Action
+                </label>
                 <button
-                  onClick={() => {
-                    setCurrentPage(1);
-                    fetchPDFs(1);
-                  }}
+                  onClick={handleSearch}
                   disabled={loading}
                   className="w-full px-8 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:cursor-not-allowed text-white font-semibold rounded-lg shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
                 >
@@ -129,8 +143,7 @@ export default function StudentDashboard() {
                     setSubject("");
                     setClassName("");
                     setSchoolName("");
-                    setCurrentPage(1);
-                    fetchPDFs(1);
+                    handleSearch();
                   }}
                   className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1"
                 >
