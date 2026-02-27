@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://edu-platform-ctt7.onrender.com/api",
+  baseURL: "https://edu-platform-dqrr.onrender.com/api",
 });
 
 // Automatically attach token
