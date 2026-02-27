@@ -9,8 +9,15 @@ export const uploadPDF = async (req, res) => {
   try {
     const { subject, className, schoolName } = req.body;
 
+    // Validate all required fields
+    if (!subject || !className || !schoolName) {
+      return res.status(400).json({ 
+        message: "All fields are required (subject, className, schoolName)" 
+      });
+    }
+
     if (!req.file) {
-      return res.status(400).json({ message: "PDF file required" });
+      return res.status(400).json({ message: "PDF file is required" });
     }
 
     // Upload file to Cloudinary

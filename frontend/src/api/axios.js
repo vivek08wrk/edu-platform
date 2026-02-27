@@ -4,9 +4,6 @@ import { toast } from "react-toastify";
 const api = axios.create({
   baseURL: "https://edu-platform-dqrr.onrender.com/api",
   timeout: 60000, // 60 seconds for Render cold starts
-  headers: {
-    'Content-Type': 'application/json',
-  },
 });
 
 // Request interceptor - Attach token

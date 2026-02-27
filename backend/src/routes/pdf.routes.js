@@ -7,12 +7,33 @@ import { getCacheStats, clearCacheByPattern } from "../middleware/cache.middlewa
 
 const router = express.Router();
 
+// Multer error handler middleware
+const handleMulterError = (err, req, res, next) => {
+  if (err) {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({ 
+        message: "File size too large. Maximum size is 10MB." 
+      });
+    }
+    if (err.message.includes('Invalid file type')) {
+      return res.status(400).json({ 
+        message: err.message 
+      });
+    }
+    return res.status(400).json({ 
+      message: err.message || "File upload failed" 
+    });
+  }
+  next();
+};
+
 // Academy Only Upload
 router.post(
   "/upload",
   protect,
   authorizeRoles("academy"),
   upload.single("file"),
+  handleMulterError,
   uploadPDF
 );
 // Student Search
